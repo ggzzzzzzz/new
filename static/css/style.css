@@ -1,0 +1,5 @@
+body { background-color: #f8f9fa; }
+.stat-box { background: #f1f5ff; border-radius: .5rem; padding: .75rem 1rem; }
+.stat-label { font-size: .85rem; color: #6c757d; }
+.stat-value { font-size: 1.25rem; font-weight: 600; }
+.study-card { text-align: center; padding: 1rem; }

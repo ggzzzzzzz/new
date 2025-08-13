@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4>Study Plan</h4>
+<form method="post" class="row g-3">
+  <div class="col-md-4">
+    <label class="form-label">Words per day</label>
+    <input type="number" name="words_per_day" class="form-control" value="{{ plan.words_per_day }}" min="1" />
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="{{ url_for('study') }}" class="btn btn-secondary">Back</a>
+  </div>
+</form>
+{% endblock %}

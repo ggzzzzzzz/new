@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-12 col-md-8">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Welcome back</h5>
+        <p class="card-text">Daily goal: <strong>{{ plan.words_per_day }}</strong> words</p>
+        <div class="d-flex gap-3 flex-wrap">
+          <div class="stat-box">
+            <div class="stat-label">Total Words</div>
+            <div class="stat-value">{{ stats.total_words }}</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Due Now</div>
+            <div class="stat-value">{{ stats.due_count }}</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Studied Today</div>
+            <div class="stat-value">{{ stats.studied_today }}</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Avg Quality Today</div>
+            <div class="stat-value">{{ stats.avg_quality_today }}</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Overall Accuracy</div>
+            <div class="stat-value">{{ stats.accuracy }}%</div>
+          </div>
+        </div>
+        <a href="{{ url_for('study') }}" class="btn btn-primary mt-3">Start Studying</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Quick Actions</h5>
+        <div class="d-grid gap-2">
+          <a href="{{ url_for('add_word') }}" class="btn btn-outline-primary">Add Word</a>
+          <a href="{{ url_for('import_csv') }}" class="btn btn-outline-secondary">Import CSV</a>
+          <a href="{{ url_for('export_csv') }}" class="btn btn-outline-success">Export CSV</a>
+          <a href="{{ url_for('export_anki') }}" class="btn btn-outline-info">Export Anki</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row g-4">
+  <div class="col-12 col-lg-8">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Study</h5>
+        {% if word %}
+          <div id="card" class="study-card">
+            <div class="front" id="card-front">
+              <div class="display-6">{{ word.word }}</div>
+              <button class="btn btn-outline-primary mt-3" onclick="toggleAnswer()">Show Answer</button>
+            </div>
+            <div class="back d-none" id="card-back">
+              <p class="lead">{{ word.meaning }}</p>
+              {% if word.part_of_speech %}<span class="badge bg-secondary">{{ word.part_of_speech }}</span>{% endif %}
+              {% if word.example_sentence %}
+              <div class="mt-2"><em>{{ word.example_sentence }}</em></div>
+              {% endif %}
+              <form method="post" action="{{ url_for('study_rate') }}" class="mt-3">
+                <input type="hidden" name="word_id" value="{{ word.id }}" />
+                <div class="btn-group flex-wrap" role="group">
+                  {% for q in [0,1,2,3,4,5] %}
+                  <button type="submit" name="quality" value="{{ q }}" class="btn btn-outline-dark">{{ q }}</button>
+                  {% endfor %}
+                </div>
+              </form>
+            </div>
+          </div>
+        {% else %}
+          <p class="lead">No cards due now. You're all caught up!</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h6 class="card-title">Today's Overview</h6>
+        <ul class="list-unstyled">
+          <li><strong>Daily goal:</strong> {{ plan.words_per_day }}</li>
+          <li><strong>Due now:</strong> {{ stats.due_count }}</li>
+          <li><strong>Studied today:</strong> {{ stats.studied_today }}</li>
+          <li><strong>Avg quality today:</strong> {{ stats.avg_quality_today }}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
