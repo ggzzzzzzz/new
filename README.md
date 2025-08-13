@@ -74,12 +74,17 @@ The Free Spaced Repetition Scheduler (FSRS) optimizes your learning schedule bas
 - **Optimal Intervals**: When to review for maximum retention
 
 ### Quality Rating Scale
-- **0** - Complete blackout
-- **1** - Incorrect response  
-- **2** - Hard to recall
-- **3** - Correct with difficulty
-- **4** - Correct with hesitation
-- **5** - Perfect response
+four answer buttons: Again, Hard, Good, and Easy
+Each button has a specific purpose in relation to how well you knew the answer and how much effort it took to recall
+
+Again:
+Used when you completely fail to recall the answer, or the card is too difficult and requires significant effort or a hint to answer correctly.
+Hard:
+Used when you were able to recall the answer, but it took more effort or time than you'd prefer, or you needed to pause and think more deeply.
+Good:
+Used when you were able to recall the answer with reasonable ease and without significant delay.
+Easy:
+Used when the card was very easy to recall, and you feel confident you won't forget it soon.
 
 ## 📊 Study Planning
 
