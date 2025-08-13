@@ -330,6 +330,34 @@ def delete_word(word_id: int):
     return redirect(url_for("words_list"))
 
 
+@app.route("/delete_bulk", methods=["POST"])
+def delete_bulk_words():
+    ids = request.form.getlist("ids")
+    if not ids:
+        return redirect(url_for("words_list"))
+    try:
+        id_ints = [int(x) for x in ids if str(x).strip().isdigit()]
+    except Exception:
+        id_ints = []
+    if not id_ints:
+        return redirect(url_for("words_list"))
+
+    # Remove related study sessions first, then words
+    db.session.query(StudySession).filter(StudySession.word_id.in_(id_ints)).delete(synchronize_session=False)
+    db.session.query(Word).filter(Word.id.in_(id_ints)).delete(synchronize_session=False)
+    db.session.commit()
+    return redirect(url_for("words_list"))
+
+
+@app.route("/delete_all", methods=["POST"])
+def delete_all_words():
+    # Remove all study sessions and words
+    db.session.query(StudySession).delete()
+    db.session.query(Word).delete()
+    db.session.commit()
+    return redirect(url_for("words_list"))
+
+
 @app.route("/import", methods=["GET", "POST"])
 def import_csv():
     if request.method == "POST":
