@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4>Progress</h4>
+<div class="row g-4">
+  <div class="col-12 col-md-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h6 class="card-title">Summary</h6>
+        <ul class="list-unstyled">
+          <li><strong>Total words:</strong> {{ stats.total_words }}</li>
+          <li><strong>Due now:</strong> {{ stats.due_count }}</li>
+          <li><strong>Studied today:</strong> {{ stats.studied_today }}</li>
+          <li><strong>Average quality today:</strong> {{ stats.avg_quality_today }}</li>
+          <li><strong>Overall accuracy:</strong> {{ stats.accuracy }}%</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="card h-100">
+      <div class="card-body">
+        <h6 class="card-title">Recent Activity</h6>
+        <ul class="list-group list-group-flush">
+          {% for s in sessions %}
+          <li class="list-group-item d-flex justify-content-between">
+            <span>{{ s.review_date.strftime('%Y-%m-%d %H:%M') }}</span>
+            <span>Quality: <strong>{{ s.quality }}</strong></span>
+            <span>Interval: {{ s.interval }}d</span>
+          </li>
+          {% else %}
+          <li class="list-group-item">No recent study sessions</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

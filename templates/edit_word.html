@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+<h4>Edit Word</h4>
+{% if error %}
+<div class="alert alert-danger">{{ error }}</div>
+{% endif %}
+<form method="post" class="row g-3">
+  <div class="col-md-6">
+    <label class="form-label">Word</label>
+    <input type="text" name="word" class="form-control" value="{{ word.word }}" required />
+  </div>
+  <div class="col-md-6">
+    <label class="form-label">Part of Speech</label>
+    <input type="text" name="part_of_speech" class="form-control" value="{{ word.part_of_speech or '' }}" />
+  </div>
+  <div class="col-12">
+    <label class="form-label">Meaning</label>
+    <textarea name="meaning" class="form-control" rows="3">{{ word.meaning }}</textarea>
+  </div>
+  <div class="col-12">
+    <label class="form-label">Example Sentence</label>
+    <textarea name="example_sentence" class="form-control" rows="2">{{ word.example_sentence or '' }}</textarea>
+  </div>
+  <div class="col-md-4">
+    <label class="form-label">Difficulty</label>
+    <select name="difficulty_level" class="form-select">
+      <option value="easy" {% if word.difficulty_level=='easy' %}selected{% endif %}>easy</option>
+      <option value="medium" {% if word.difficulty_level=='medium' %}selected{% endif %}>medium</option>
+      <option value="hard" {% if word.difficulty_level=='hard' %}selected{% endif %}>hard</option>
+    </select>
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="{{ url_for('words_list') }}" class="btn btn-secondary">Cancel</a>
+  </div>
+</form>
+{% endblock %}
