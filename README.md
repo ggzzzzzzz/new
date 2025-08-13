@@ -246,7 +246,7 @@ If you encounter issues:
 
 ## 🎓 Learning Resources
 
-- [FSRS Algorithm Documentation](https://github.com/ishiko732/FSRS4Anki)
+- [FSRS Algorithm Documentation](https://github.com/open-spaced-repetition)
 - [Spaced Repetition Theory](https://en.wikipedia.org/wiki/Spaced_repetition)
 - [Vocabulary Learning Strategies](https://www.vocabulary.com/)
 
