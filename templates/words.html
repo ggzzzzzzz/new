@@ -2,7 +2,12 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-3">
   <h4 class="m-0">Words</h4>
-  <a href="{{ url_for('add_word') }}" class="btn btn-primary">Add Word</a>
+  <div class="d-flex gap-2">
+    <a href="{{ url_for('add_word') }}" class="btn btn-primary">Add Word</a>
+    <form action="{{ url_for('delete_all_words') }}" method="post" onsubmit="return confirm('Delete ALL words? This cannot be undone.');">
+      <button type="submit" class="btn btn-outline-danger">Delete All</button>
+    </form>
+  </div>
 </div>
 <form method="get" class="row g-2 mb-3">
   <div class="col-auto">
@@ -13,38 +18,65 @@
   </div>
 </form>
 <div class="table-responsive">
-<table class="table table-striped align-middle">
-  <thead>
-    <tr>
-      <th>Word</th>
-      <th>Meaning</th>
-      <th>POS</th>
-      <th>EF</th>
-      <th>Int</th>
-      <th>Reps</th>
-      <th>Next Review</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for w in words %}
-    <tr>
-      <td class="fw-semibold">{{ w.word }}</td>
-      <td class="small text-muted">{{ w.meaning[:120] }}{% if w.meaning|length > 120 %}...{% endif %}</td>
-      <td>{{ w.part_of_speech or '' }}</td>
-      <td>{{ '%.2f'|format(w.ease_factor or 2.5) }}</td>
-      <td>{{ w.interval or 0 }}</td>
-      <td>{{ w.repetitions or 0 }}</td>
-      <td>{% if w.next_review %}{{ w.next_review.strftime('%Y-%m-%d') }}{% endif %}</td>
-      <td class="text-nowrap">
-        <a href="{{ url_for('edit_word', word_id=w.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
-        <form action="{{ url_for('delete_word', word_id=w.id) }}" method="post" class="d-inline" onsubmit="return confirm('Delete this word?')">
-          <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+  <table class="table table-striped align-middle">
+    <thead>
+      <tr>
+        <th style="width:36px"><input type="checkbox" id="selectAll" /></th>
+        <th>Word</th>
+        <th>Meaning</th>
+        <th>POS</th>
+        <th>EF</th>
+        <th>Int</th>
+        <th>Reps</th>
+        <th>Next Review</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for w in words %}
+      <tr>
+        <td><input type="checkbox" class="row-checkbox" name="ids" value="{{ w.id }}" form="bulkDeleteForm" /></td>
+        <td class="fw-semibold">{{ w.word }}</td>
+        <td class="small text-muted">{{ w.meaning[:120] }}{% if w.meaning|length > 120 %}...{% endif %}</td>
+        <td>{{ w.part_of_speech or '' }}</td>
+        <td>{{ '%.2f'|format(w.ease_factor or 2.5) }}</td>
+        <td>{{ w.interval or 0 }}</td>
+        <td>{{ w.repetitions or 0 }}</td>
+        <td>{% if w.next_review %}{{ w.next_review.strftime('%Y-%m-%d') }}{% endif %}</td>
+        <td class="text-nowrap">
+          <a href="{{ url_for('edit_word', word_id=w.id) }}" class="btn btn-sm btn-outline-primary">Edit</a>
+          <form action="{{ url_for('delete_word', word_id=w.id) }}" method="post" class="d-inline" onsubmit="return confirm('Delete this word?')">
+            <button type="submit" class="btn btn-sm btn-outline-danger">Delete</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
+<div class="d-flex justify-content-between align-items-center">
+  <div class="small text-muted">{{ words|length }} words</div>
+  <form id="bulkDeleteForm" action="{{ url_for('delete_bulk_words') }}" method="post" onsubmit="return confirm('Delete selected words?');">
+    <button id="deleteSelectedBtn" type="submit" class="btn btn-danger" disabled>Delete Selected</button>
+  </form>
+</div>
+<script>
+  const selectAll = document.getElementById('selectAll');
+  const checkboxes = document.querySelectorAll('.row-checkbox');
+  const deleteBtn = document.getElementById('deleteSelectedBtn');
+
+  function updateDeleteButtonState() {
+    const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+    deleteBtn.disabled = !anyChecked;
+  }
+
+  if (selectAll) {
+    selectAll.addEventListener('change', () => {
+      checkboxes.forEach(cb => { cb.checked = selectAll.checked; });
+      updateDeleteButtonState();
+    });
+  }
+
+  checkboxes.forEach(cb => cb.addEventListener('change', updateDeleteButtonState));
+</script>
 {% endblock %}
